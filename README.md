@@ -9,6 +9,12 @@ This is my personal fork with several patches:
 - systray
 - WM_WINDOW_ROLE
 
+
+Screenshot
+------------
+![image (5 KB)][scrshot img]
+
+
 Requirements
 ------------
 In order to build dwm you need the Xlib header files.
@@ -55,3 +61,5 @@ Configuration
 -------------
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
+
+[scrshot img]: https://raw.githubusercontent.com/chinarulezzz/dwm-6.0/master/scrshot.png
