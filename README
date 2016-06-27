@@ -3,11 +3,11 @@ dwm - dynamic window manager
 dwm is an extremely fast, small, and dynamic window manager for X.
 
 This is my personal fork with several patches:
-- WM_WINDOW_ROLE
 - bstack
+- gapless grid
 - pertag
 - systray
-
+- WM_WINDOW_ROLE
 
 Requirements
 ------------

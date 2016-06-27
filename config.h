@@ -3,10 +3,10 @@
 /* appearance */
 static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*"; /* шрифт */
 static const char normbordercolor[] = "#444444";    /* цвет границ окна             */
-static const char normbgcolor[]     = "#3A3A3A";    /* цвет фона                    */
+static const char normbgcolor[]     = "#1c1c1c";    /* цвет фона                    */
 static const char normfgcolor[]     = "#87AFAF";    /* цвет текста в status bar'e   */
-static const char selbordercolor[]  = "#cc6a00";    /* цвет границ активного окна   */
-static const char selbgcolor[]      = "#007177";    /* цвет фона заголовка окна     */
+static const char selbordercolor[]  = "#D64937";    /* цвет границ активного окна   */
+static const char selbgcolor[]      = "#262626";    /* цвет фона заголовка окна     */
 static const char selfgcolor[]      = "#ffffff";    /* цвет текста заголовка окна   */
 static const unsigned int borderpx  = 1.5;          /* border pixel of windows      */
 static const unsigned int snap      = 32;           /* snap pixel                   */
@@ -16,11 +16,11 @@ static const Bool showbar           = True;         /* False means no bar       
 static const Bool topbar            = False;        /* False means bottom bar       */
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4" }; /*, "5", "6", "7", "8", "9" }; */
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
         /* class      instance    title          role    tags mask     isfloating   monitor */
-        { "Gmusicbrowser", NULL,  NULL,          NULL,     8, /*0001*/   True,        -1 },
+        { "Gmusicbrowser", NULL,  NULL,          NULL,     256,          True,        -1 },
         { "Gimp",     NULL,       NULL,          NULL,     0,            True,        -1 },
         { "Lazarus",  NULL,       NULL,          NULL,     0,            True,        -1 },
         { "floaterm", "xterm",    NULL,          NULL,     0,            True,        -1 },
@@ -28,7 +28,11 @@ static const Rule rules[] = {
         { "XClock",   "xclock",   "xclock",      NULL,    ~0,            True,        -1 },
         { "XCalc",    "xcalc",    "Calculator",  NULL,     0,            True,        -1 },
         { "Xmessage", "xmessage", "xmessage",    NULL,     0,            True,        -1 },
-        { "Pidgin",   NULL,       NULL,          "conversation",0,       True,        -1 },
+
+        /* Don't forget to install window_merge plugin */
+        { "Pidgin",   NULL,       NULL,          "buddy_list", 0,       False,         1 },
+
+	{ "Thunderbird",NULL,	  NULL,		 NULL,     2,		False,	       1 },
         { "Skype",    NULL,       NULL,          "ConversationsWindow",0,True,        -1 },
 };
 
@@ -36,10 +40,11 @@ static const Rule rules[] = {
 static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
                                       /* Размер мастер-окна в % от ширины экрана */
 static const int nmaster      = 1;    /* number of clients in master area */
-static const Bool resizehints = True; /* True means respect size hints in tiled resizals */
+static const Bool resizehints = False;/* True means respect size hints in tiled resizals */
 
 #include "bstack.c"
 #include "bstackhoriz.c"
+#include "gaplessgrid.c"
 static const Layout layouts[] = {
         /* symbol     arrange function */
         { "[]=",      tile },    /* first entry is default */
@@ -47,6 +52,7 @@ static const Layout layouts[] = {
         { "[M]",      monocle },
         { "TTT",      bstack },
         { "===",      bstackhoriz },
+        { "###",      gaplessgrid },
 };
 
 /* key definitions */
@@ -88,11 +94,14 @@ static const char *master_lower_cmd[] = { "amixer", "sset", "Master,0", "1-", NU
 static const char *master_raise_cmd[] = { "amixer", "sset", "Master,0", "1+", NULL };
 static const char *front_lower_cmd[]  = { "amixer", "sset", "Front", "1-", NULL };
 static const char *front_raise_cmd[]  = { "amixer", "sset", "Front", "1+", NULL };
-
+static const char *headphone_l_cmd[]  = { "amixer", "sset", "Headphone,0", "1-", NULL };
+static const char *headphone_r_cmd[]  = { "amixer", "sset", "Headphone,0", "1+", NULL };
+/*
 static const char *fileman_cmd[] = { "xterm", "-e", "mc", "-S", "dark", "/mnt", "~/", NULL };
 static const char *browser_cmd[] = { "firefox", NULL };
 static const char *email_cmd[]   = { "thunderbird", NULL };
 static const char *calcul_cmd[]  = { "xcalc", NULL };
+*/
 /* Для ноутбуков */
 static const char *xbacklightinc_cmd[] = { "xbacklight", "-set", "100", NULL };
 static const char *xbacklightdec_cmd[] = { "xbacklight", "-set", "0", NULL };
@@ -107,31 +116,31 @@ static Key keys[] = {
 
         { MODKEY,                       XK_Up,     focusstack,     {.i = +1 } },
         { MODKEY,                       XK_Down,   focusstack,     {.i = -1 } },
-
-/*      { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+        /*
+        { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
         { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-*/
+        */
         { MODKEY|ShiftMask,             XK_Left,   setmfact,       {.f = -0.05} },
         { MODKEY|ShiftMask,             XK_Right,  setmfact,       {.f = +0.05} },
 
         { MODKEY,                       XK_Return, zoom,           {0} },
         { MODKEY,                       XK_Tab,    view,           {0} },
-        { MODKEY,                       XK_k,      killclient,     {0} },
+        { MODKEY,                       XK_c,      killclient,     {0} },
         { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
         { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
         { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
         { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
         { MODKEY,                       XK_h,      setlayout,      {.v = &layouts[4]} },
+        { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
         { MODKEY,                       XK_space,  setlayout,      {0} },
         { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
         { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
         { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
-/*      { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+        { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
         { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
         { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
         { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-*/
 
         /* Для мультимедия-клавиатур */
         { 0,                            XF86XK_AudioMedia,      spawn,  {.v = player_prog_cmd } },
@@ -142,27 +151,31 @@ static Key keys[] = {
         { MODKEY,                       XF86XK_AudioLowerVolume,spawn,  {.v = front_lower_cmd } },
         { 0,                            XF86XK_AudioRaiseVolume,spawn,  {.v = master_raise_cmd} },
         { MODKEY,                       XF86XK_AudioRaiseVolume,spawn,  {.v = front_raise_cmd } },
+        { MODKEY|ShiftMask,             XF86XK_AudioLowerVolume,spawn,  {.v = headphone_l_cmd} },
+        { MODKEY|ShiftMask,             XF86XK_AudioRaiseVolume,spawn,  {.v = headphone_r_cmd} },
         { 0,                            XF86XK_AudioPrev,       spawn,  {.v = player_prev_cmd } },
         { 0,                            XF86XK_AudioNext,       spawn,  {.v = player_next_cmd } },
+        /*
         { 0,                            XF86XK_MyComputer,      spawn,  {.v = fileman_cmd } },
-      /*{ 0,                            XF86XK_Favorites,       spawn,  {.v = fileman_cmd } },  */
+        { 0,                            XF86XK_Favorites,       spawn,  {.v = fileman_cmd } },
         { 0,                            XF86XK_Search,          spawn,  {.v = browser_cmd } },
         { 0,                            XF86XK_Mail,            spawn,  {.v = email_cmd   } },
         { 0,                            XF86XK_Calculator,      spawn,  {.v = calcul_cmd  } },
+        */
         /* Регулировка подсветки */
         { 0,                            XF86XK_MonBrightnessUp,  spawn, {.v = xbacklightinc_cmd } },
         { 0,                            XF86XK_MonBrightnessDown,spawn, {.v = xbacklightdec_cmd } },
+
         TAGKEYS(                        XK_1,                      0)
         TAGKEYS(                        XK_2,                      1)
         TAGKEYS(                        XK_3,                      2)
         TAGKEYS(                        XK_4,                      3)
         TAGKEYS(                        XK_5,                      4)
-
-/*      TAGKEYS(                        XK_6,                      5)
+        TAGKEYS(                        XK_6,                      5)
         TAGKEYS(                        XK_7,                      6)
         TAGKEYS(                        XK_8,                      7)
         TAGKEYS(                        XK_9,                      8)
-*/
+
         { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
