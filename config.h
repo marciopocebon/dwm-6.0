@@ -19,21 +19,24 @@ static const Bool topbar            = False;        /* False means bottom bar   
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-        /* class      instance    title          role    tags mask     isfloating   monitor */
-        { "Gmusicbrowser", NULL,  NULL,          NULL,     256,          True,        -1 },
-        { "Gimp",     NULL,       NULL,          NULL,     0,            True,        -1 },
-        { "Lazarus",  NULL,       NULL,          NULL,     0,            True,        -1 },
-        { "floaterm", "xterm",    NULL,          NULL,     0,            True,        -1 },
-        { "XBiff",    "xbiff",    "xbiff",       NULL,    ~0,            True,        -1 },
-        { "XClock",   "xclock",   "xclock",      NULL,    ~0,            True,        -1 },
-        { "XCalc",    "xcalc",    "Calculator",  NULL,     0,            True,        -1 },
-        { "Xmessage", "xmessage", "xmessage",    NULL,     0,            True,        -1 },
+/* class                instance        title           role            tags mask       isfloating      monitor */
+ { "Gmusicbrowser",     "gmusicbrowser",NULL,           NULL,           256,            False,          -1 },
+ { "Gimp",              NULL,           NULL,           NULL,           0,              True,           -1 },
+ { "Lazarus",           NULL,           NULL,           NULL,           0,              True,           -1 },
+ { "floaterm",          "xterm",        NULL,           NULL,           0,              True,           -1 },
+ { "XBiff",             "xbiff",        "xbiff",        NULL,           ~0,             True,           -1 },
+ { "XClock",            "xclock",       "xclock",       NULL,           ~0,             True,           -1 },
+ { "XCalc",             "xcalc",        "Calculator",   NULL,           0,              True,           -1 },
+ { "Xmessage",          "xmessage",     "xmessage",     NULL,           0,              True,           -1 },
 
-        /* Don't forget to install window_merge plugin */
-        { "Pidgin",   NULL,       NULL,          "buddy_list", 0,       False,         1 },
-
-	{ "Thunderbird",NULL,	  NULL,		 NULL,     2,		False,	       1 },
-        { "Skype",    NULL,       NULL,          "ConversationsWindow",0,True,        -1 },
+ /* Don't forget to install window_merge plugin */
+ { "Pidgin",            NULL,           NULL,           "buddy_list",   0,              False,          1  },
+/*
+ { "Skype",             NULL,           NULL,          "ConversationsWindow", 2,        False,          1  },
+ */
+ { "Hexchat",           NULL,           NULL,           NULL,           0,              False,          1  },
+ { "Thunderbird",       NULL,           NULL,           NULL,     	2,              False,          1  },
+ { "Skype",             NULL,           NULL,           NULL,           4,              False,          1  },
 };
 
 /* layout(s) */
@@ -89,6 +92,13 @@ static const char *player_vinc_cmd[]   = { "gmusicbrowser", "-cmd", "IncVolume",
 static const char *player_vdec_cmd[]   = { "gmusicbrowser", "-cmd", "DecVolume", NULL };
 static const char *player_quit_cmd[]   = { "gmusicbrowser", "-cmd", "Quit",      NULL };
 
+#define AUDIO_CARD "alsa_output.pci-0000_00_05.0.analog-stereo"
+
+static const char *audio_mute_cmd[] =  { "pactl", "set-sink-mute", AUDIO_CARD, "toggle", NULL };
+static const char *audio_lower_cmd[] = { "pactl", "set-sink-volume", AUDIO_CARD, "-1%", NULL };
+static const char *audio_raise_cmd[] = { "pactl", "set-sink-volume", AUDIO_CARD, "+1%", NULL };
+
+/*
 static const char *master_mute_cmd[]  = { "amixer", "sset", "Master,0", "toggle", NULL };
 static const char *master_lower_cmd[] = { "amixer", "sset", "Master,0", "1-", NULL };
 static const char *master_raise_cmd[] = { "amixer", "sset", "Master,0", "1+", NULL };
@@ -96,12 +106,12 @@ static const char *front_lower_cmd[]  = { "amixer", "sset", "Front", "1-", NULL 
 static const char *front_raise_cmd[]  = { "amixer", "sset", "Front", "1+", NULL };
 static const char *headphone_l_cmd[]  = { "amixer", "sset", "Headphone,0", "1-", NULL };
 static const char *headphone_r_cmd[]  = { "amixer", "sset", "Headphone,0", "1+", NULL };
-/*
 static const char *fileman_cmd[] = { "xterm", "-e", "mc", "-S", "dark", "/mnt", "~/", NULL };
 static const char *browser_cmd[] = { "firefox", NULL };
 static const char *email_cmd[]   = { "thunderbird", NULL };
 static const char *calcul_cmd[]  = { "xcalc", NULL };
 */
+
 /* Для ноутбуков */
 static const char *xbacklightinc_cmd[] = { "xbacklight", "-set", "100", NULL };
 static const char *xbacklightdec_cmd[] = { "xbacklight", "-set", "0", NULL };
@@ -116,10 +126,8 @@ static Key keys[] = {
 
         { MODKEY,                       XK_Up,     focusstack,     {.i = +1 } },
         { MODKEY,                       XK_Down,   focusstack,     {.i = -1 } },
-        /*
-        { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-        { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-        */
+//      { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+//      { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
         { MODKEY|ShiftMask,             XK_Left,   setmfact,       {.f = -0.05} },
         { MODKEY|ShiftMask,             XK_Right,  setmfact,       {.f = +0.05} },
 
@@ -145,23 +153,21 @@ static Key keys[] = {
         /* Для мультимедия-клавиатур */
         { 0,                            XF86XK_AudioMedia,      spawn,  {.v = player_prog_cmd } },
         { 0,                            XF86XK_AudioPlay,       spawn,  {.v = player_play_cmd } },
-        { 0,                            XF86XK_AudioMute,       spawn,  {.v = master_mute_cmd } },
+        { 0,                            XF86XK_AudioMute,       spawn,  {.v = audio_mute_cmd } },
         { 0,                            XF86XK_AudioStop,       spawn,  {.v = player_stop_cmd } },
-        { 0,                            XF86XK_AudioLowerVolume,spawn,  {.v = master_lower_cmd} },
-        { MODKEY,                       XF86XK_AudioLowerVolume,spawn,  {.v = front_lower_cmd } },
-        { 0,                            XF86XK_AudioRaiseVolume,spawn,  {.v = master_raise_cmd} },
-        { MODKEY,                       XF86XK_AudioRaiseVolume,spawn,  {.v = front_raise_cmd } },
-        { MODKEY|ShiftMask,             XF86XK_AudioLowerVolume,spawn,  {.v = headphone_l_cmd} },
-        { MODKEY|ShiftMask,             XF86XK_AudioRaiseVolume,spawn,  {.v = headphone_r_cmd} },
+        { 0,                            XF86XK_AudioLowerVolume,spawn,  {.v = audio_lower_cmd} },
+//      { MODKEY,                       XF86XK_AudioLowerVolume,spawn,  {.v = front_lower_cmd } },
+        { 0,                            XF86XK_AudioRaiseVolume,spawn,  {.v = audio_raise_cmd} },
+//      { MODKEY,                       XF86XK_AudioRaiseVolume,spawn,  {.v = front_raise_cmd } },
+//      { MODKEY|ShiftMask,             XF86XK_AudioLowerVolume,spawn,  {.v = headphone_l_cmd} },
+//      { MODKEY|ShiftMask,             XF86XK_AudioRaiseVolume,spawn,  {.v = headphone_r_cmd} },
         { 0,                            XF86XK_AudioPrev,       spawn,  {.v = player_prev_cmd } },
         { 0,                            XF86XK_AudioNext,       spawn,  {.v = player_next_cmd } },
-        /*
-        { 0,                            XF86XK_MyComputer,      spawn,  {.v = fileman_cmd } },
-        { 0,                            XF86XK_Favorites,       spawn,  {.v = fileman_cmd } },
-        { 0,                            XF86XK_Search,          spawn,  {.v = browser_cmd } },
-        { 0,                            XF86XK_Mail,            spawn,  {.v = email_cmd   } },
-        { 0,                            XF86XK_Calculator,      spawn,  {.v = calcul_cmd  } },
-        */
+//      { 0,                            XF86XK_MyComputer,      spawn,  {.v = fileman_cmd } },
+//      { 0,                            XF86XK_Favorites,       spawn,  {.v = fileman_cmd } },
+//      { 0,                            XF86XK_Search,          spawn,  {.v = browser_cmd } },
+//      { 0,                            XF86XK_Mail,            spawn,  {.v = email_cmd   } },
+//      { 0,                            XF86XK_Calculator,      spawn,  {.v = calcul_cmd  } },
         /* Регулировка подсветки */
         { 0,                            XF86XK_MonBrightnessUp,  spawn, {.v = xbacklightinc_cmd } },
         { 0,                            XF86XK_MonBrightnessDown,spawn, {.v = xbacklightdec_cmd } },
