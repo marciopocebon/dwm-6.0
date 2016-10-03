@@ -80,7 +80,7 @@ static const char *dmenu_cmd[] = { "dmenu_run",
                                     "-sb", selbgcolor,
                                     "-sf", selfgcolor, NULL };
 
-static const char *term_cmd[]  = { "xterm", NULL };
+static const char *term_cmd[]  = { "urxvtcd", NULL };
 
 static const char *player_prog_cmd[]   = { "gmusicbrowser", NULL };
 static const char *player_stop_cmd[]   = { "gmusicbrowser", "-cmd", "Stop",      NULL };
