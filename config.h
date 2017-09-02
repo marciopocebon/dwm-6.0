@@ -27,8 +27,17 @@ static char tags[][TAGS][MAX_TAGLEN] = {
 
 static const Rule rules[] = {
 /* class                instance        title           role            tags mask       isfloating      monitor */
- { "Gmusicbrowser",     "gmusicbrowser",NULL,           NULL,           256,            False,          -1 },
- { "Gmusicbrowser",     NULL,           "Equalizer",    "Equalizer",    256,            True,           -1 },
+ { "Gmusicbrowser.pl",  "gmusicbrowser.pl", NULL,       NULL,           256,            False,          0 },
+ { "Gmusicbrowser.pl",  "gmusicbrowser.pl","Equalizer", "Equalizer",    256,            True,           0 },
+
+ /* Don't forget to install window_merge plugin */
+ { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
+//{"tabbed",            NULL,           NULL,           NULL,           0,              False,          1  },
+ { "Hexchat",           NULL,           NULL,           NULL,           0,              False,          1  },
+ { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
+ { "qBittorrent",       "qbittorrent",  NULL,           NULL,           256,            False,          1  },
+
+ /* current active monitor */
  { "Gimp",              NULL,           NULL,           NULL,           0,              True,           -1 },
  { "Lazarus",           NULL,           NULL,           NULL,           0,              True,           -1 },
  { "floaterm",          "xterm",        NULL,           NULL,           0,              True,           -1 },
@@ -36,13 +45,7 @@ static const Rule rules[] = {
  { "XClock",            "xclock",       "xclock",       NULL,           ~0,             True,           -1 },
  { "XCalc",             "xcalc",        "Calculator",   NULL,           0,              True,           -1 },
  { "Xmessage",          "xmessage",     "xmessage",     NULL,           0,              True,           -1 },
- /* Don't forget to install window_merge plugin */
- { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
-//{"tabbed",            NULL,           NULL,           NULL,           0,              False,          1  },
- { "Hexchat",           NULL,           NULL,           NULL,           0,              False,          1  },
- { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
  { "Ssvnc.tcl",         "ssvnc.tcl",    "SSL/SSH VNC Viewer", NULL,     0,              True,           -1 },
- { "qBittorrent",       "qbittorrent",  NULL,           NULL,           256,            False,          1  },
 };
 
 /* layout(s) */
