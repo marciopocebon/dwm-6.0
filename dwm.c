@@ -52,7 +52,7 @@
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
-#define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+#define TAGMASK                 ((1 << TAGS) - 1)
 #define TEXTW(X)                (textnw(X, strlen(X)) + dc.font.height)
 
 #define SYSTEM_TRAY_REQUEST_DOCK    0
@@ -231,6 +231,7 @@ static void maprequest(XEvent *e);
 static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
+static void nametag(const Arg *arg);
 static Client *nexttiled(Client *c);
 static void pop(Client *);
 static void propertynotify(XEvent *e);
@@ -327,16 +328,16 @@ static Window root;
 #include "config.h"
 
 struct Pertag {
-	unsigned int curtag, prevtag; /* current and previous tag */
-	int nmasters[LENGTH(tags) + 1]; /* number of windows in master area */
-	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
-	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
-	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-	Bool showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
+	unsigned int curtag, prevtag;           /* current and previous tag */
+	int nmasters[TAGS + 1];                 /* number of windows in master area */
+	float mfacts[TAGS + 1];                 /* mfacts per tag */
+	unsigned int sellts[TAGS + 1];          /* selected layouts */
+	const Layout *ltidxs[TAGS + 1][2];      /* matrix of tags and layouts indexes  */
+	Bool showbars[TAGS + 1];                /* display bar for the current tag */
 };
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+struct NumTags { char limitexceeded[TAGS > 31 ? -1 : 1]; };
 
 char *
 getprop(Window w, const char *prop)
@@ -508,9 +509,9 @@ buttonpress(XEvent *e) {
 	if(ev->window == selmon->barwin) {
 		i = x = 0;
 		do
-			x += TEXTW(tags[i]);
-		while(ev->x >= x && ++i < LENGTH(tags));
-		if(i < LENGTH(tags)) {
+                        x += TEXTW(tags[m->num][i]);
+		while(ev->x >= x && ++i < TAGS);
+		if(i < TAGS) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
 		}
@@ -772,7 +773,7 @@ createmon(void) {
 	if(!(m->pertag = (Pertag *)calloc(1, sizeof(Pertag))))
 		die("fatal: could not malloc() %u bytes\n", sizeof(Pertag));
 	m->pertag->curtag = m->pertag->prevtag = 1;
-	for(i=0; i <= LENGTH(tags); i++) {
+	for(i=0; i <= TAGS; i++) {
 		/* init nmaster */
 		m->pertag->nmasters[i] = m->nmaster;
 
@@ -864,10 +865,10 @@ drawbar(Monitor *m) {
 			urg |= c->tags;
 	}
 	dc.x = 0;
-	for(i = 0; i < LENGTH(tags); i++) {
-		dc.w = TEXTW(tags[i]);
+	for(i = 0; i < TAGS; i++) {
+                dc.w = TEXTW(tags[m->num][i]);
 		col = m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
-		drawtext(tags[i], col, urg & 1 << i);
+                drawtext(tags[m->num][i], col, urg & 1 << i);
 		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 		           occ & 1 << i, urg & 1 << i, col);
 		dc.x += dc.w;
@@ -1433,6 +1434,42 @@ movemouse(const Arg *arg) {
 		selmon = m;
 		focus(NULL);
 	}
+}
+
+void
+nametag(const Arg *arg) {
+        char *p, name[MAX_TAGNAME_LEN];
+        FILE *f;
+        int i;
+
+        errno = 0; /* popen(3p) says on failure it "may" set errno */
+        if(!(f = popen("dmenu -p 'set current tag name:' < /dev/null", "r"))) {
+                fprintf(stderr, "dwm: Could not popen 'dmenu ... < /dev/null'");
+                if(errno)
+                        fprintf(stderr, ": %s\n", strerror(errno));
+                else
+                        fprintf(stderr, "\n");
+                return;
+        }
+        if(!(p = fgets(name, MAX_TAGNAME_LEN, f)) && ferror(f))
+                fprintf(stderr, "dwm: fgets failed: %s\n", strerror(errno));
+        if(pclose(f) < 0)
+                fprintf(stderr, "dwm: pclose failed: %s\n", strerror(errno));
+        if(!p)
+                return;
+        if((p = strchr(name, '\n')))
+                *p = '\0';
+
+        for(i = 0; i < TAGS; i++)
+                if(selmon->tagset[selmon->seltags] & (1 << i)) {
+                        if (strlen(name))
+                                sprintf(tags[selmon->num][i], "%1i:%s", i+1, name);
+                        else
+                                sprintf(tags[selmon->num][i], "%1i", i+1);
+                }
+
+        drawbar(selmon);
+        fprintf(stderr, "exit from nametag");
 }
 
 Client *
