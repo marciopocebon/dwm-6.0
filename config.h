@@ -187,10 +187,10 @@ static Key keys[] = {
 //      { MODKEY|ShiftMask,             XF86XK_AudioMute,               spawn,  {.v = headphone_mute_cmd } },
 //      { MODKEY|ShiftMask,             XF86XK_AudioLowerVolume,        spawn,  {.v = headphone_decv_cmd } },
 //      { MODKEY|ShiftMask,             XF86XK_AudioRaiseVolume,        spawn,  {.v = headphone_incv_cmd } },
-  
+
 //      { 0,                            XF86XK_Mail,                    spawn,  {.v = mailclient_cmd } },
 //      { 0,                            XF86XK_Calculator,              spawn,  {.v = calculator_cmd } },
-  
+
 
         /* Brightness */
         { 0,                            XF86XK_MonBrightnessUp,         spawn,  {.v = xbacklight_i_cmd } },
