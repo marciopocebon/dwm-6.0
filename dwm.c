@@ -515,6 +515,7 @@ buttonpress(XEvent *e) {
                 for(c = m->clients; c; c = c->next)
                         occ |= c->tags == 255 ? 0 : c->tags;
                 do {
+                        /* do not reserve space for vacant tags */
                         if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
                                 continue;
                         x += TEXTW(tags[m->num][i]);
@@ -874,13 +875,14 @@ drawbar(Monitor *m) {
         }
         dc.x = 0;
         for(i = 0; i < TAGS; i++) {
+                /* do not draw vacant tags */
                 if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
                         continue;
                 dc.w = TEXTW(tags[m->num][i]);
                 col = m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
                 drawtext(tags[m->num][i], col, urg & 1 << i);
                 drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-                           occ & 1 << i, urg & 1 << i, col);
+                           0, urg & 1 << i, col);
                 dc.x += dc.w;
         }
         dc.w = blw = TEXTW(m->ltsymbol);
