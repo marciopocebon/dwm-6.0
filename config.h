@@ -130,6 +130,17 @@ static Key keys[] = {
 
         { MODKEY,                       XK_Up,     focusstack,     {.i = +1 } },
         { MODKEY,                       XK_Down,   focusstack,     {.i = -1 } },
+
+        { Mod1Mask,                     XK_1,      focusnstack,    {.i = 1 } },
+        { Mod1Mask,                     XK_2,      focusnstack,    {.i = 2 } },
+        { Mod1Mask,                     XK_3,      focusnstack,    {.i = 3 } },
+        { Mod1Mask,                     XK_4,      focusnstack,    {.i = 4 } },
+        { Mod1Mask,                     XK_5,      focusnstack,    {.i = 5 } },
+        { Mod1Mask,                     XK_6,      focusnstack,    {.i = 6 } },
+        { Mod1Mask,                     XK_7,      focusnstack,    {.i = 7 } },
+        { Mod1Mask,                     XK_8,      focusnstack,    {.i = 8 } },
+        { Mod1Mask,                     XK_9,      focusnstack,    {.i = 9 } },
+
 //      { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 //      { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
         { MODKEY|ShiftMask,             XK_Left,   setmfact,       {.f = -0.05} },

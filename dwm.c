@@ -77,9 +77,9 @@ enum { CurNormal, CurResize, CurMove, CurLast };                /* cursor */
 enum { ColBorder, ColFG, ColBG, ColLast };                      /* color */
 
 enum { NetSupported, NetSystemTray, NetSystemTrayOP,
-        NetSystemTrayOrientation, NetWMName, NetWMState,
-        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-        NetWMWindowTypeDialog, NetLast };                       /* EWMH atoms */
+       NetSystemTrayOrientation, NetWMName, NetWMState,
+       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+       NetWMWindowTypeDialog, NetLast };                        /* EWMH atoms */
 
 enum { Manager, Xembed, XembedInfo, XLast };                    /* Xembed atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast };   /* default atoms */
@@ -216,6 +216,7 @@ static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
+static void focusnstack(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static unsigned long getcolor(const char *colstr);
@@ -378,10 +379,10 @@ applyrules(Client *c) {
 
         for(i = 0; i < LENGTH(rules); i++) {
                 r = &rules[i];
-                if((!r->title    || strstr(c->name, r->title))
-                && (!r->class    || strstr(class, r->class))
+                if((!r->title    || strstr(c->name,  r->title))
+                && (!r->class    || strstr(class,    r->class))
                 && (!r->instance || strstr(instance, r->instance))
-                && (!r->role     || strstr(role, r->role)))
+                && (!r->role     || strstr(role,     r->role)))
                 {
                         c->isfloating = r->isfloating;
                         c->tags |= r->tags;
@@ -536,7 +537,8 @@ buttonpress(XEvent *e) {
                 click = ClkClientWin;
         }
         for(i = 0; i < LENGTH(buttons); i++)
-                if(click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
+                if(click == buttons[i].click
+                && buttons[i].func && buttons[i].button == ev->button
                 && CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
                         buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
 }
@@ -643,11 +645,11 @@ clientmessage(XEvent *e) {
                         /* use parents background pixmap */
                         swa.background_pixmap = ParentRelative;
                         XChangeWindowAttributes(dpy, c->win, CWBackPixmap, &swa);
-                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_EMBEDDED_NOTIFY, 0 , systray->win, XEMBED_EMBEDDED_VERSION);
+                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_EMBEDDED_NOTIFY, 0, systray->win, XEMBED_EMBEDDED_VERSION);
                         /* FIXME not sure if I have to send these events, too */
-                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_FOCUS_IN, 0 , systray->win, XEMBED_EMBEDDED_VERSION);
-                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0 , systray->win, XEMBED_EMBEDDED_VERSION);
-                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_MODALITY_ON, 0 , systray->win, XEMBED_EMBEDDED_VERSION);
+                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_FOCUS_IN,        0, systray->win, XEMBED_EMBEDDED_VERSION);
+                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+                        sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_MODALITY_ON,     0, systray->win, XEMBED_EMBEDDED_VERSION);
                         resizebarwin(selmon);
                         updatesystray();
                         setclientstate(c, NormalState);
@@ -1036,6 +1038,30 @@ focusmon(const Arg *arg) {
         unfocus(selmon->sel, True);
         selmon = m;
         focus(NULL);
+}
+
+void
+focusnstack(const Arg *arg) {
+        Client *c = NULL, *i;
+        int j;
+
+        if(!selmon->sel || arg->i < 0)
+                return;
+
+        for(j = 1, i = selmon->clients; i; i = i->next, j++)
+                if(ISVISIBLE(i) && j == arg->i)
+                        c = i;
+
+        if(!c) {
+                for(j = 1; i; i = i->next, j++)
+                        if(ISVISIBLE(i) && j == arg->i)
+                                c = i;
+        }
+
+        if(c) {
+                focus(c);
+                restack(selmon);
+        }
 }
 
 void
@@ -1481,7 +1507,6 @@ nametag(const Arg *arg) {
                 }
 
         drawbar(selmon);
-        fprintf(stderr, "exit from nametag");
 }
 
 Client *
