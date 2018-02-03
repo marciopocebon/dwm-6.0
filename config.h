@@ -20,22 +20,33 @@ static const Bool topbar            = False;        /* False means bottom bar   
 #define MAX_TAGLEN      16      /* altogether */
 #define TAGS            9       /* number of tags */
 
+//#define	HAVE_2MONS	/* uncomment if we have 2 connected monitors */
+
 static char tags[][TAGS][MAX_TAGLEN] = {
+#ifdef HAVE_2MONS
 /* monitor 0 */  {"1", "2", "3", "4", "5", "6", "7", "8", "9:gmb"},
 /* monitor 1 */  {"1", "2:mail", "3:chat", "4", "5", "6", "7", "8", "9:qb"},
+#else
+                 {"1", "2:im", "3", "4", "5", "6", "7", "8:qb", "9:gmb" },
+#endif
 };
 
 static const Rule rules[] = {
 /* class                instance        title           role            tags mask       isfloating      monitor */
+
  { "Gmusicbrowser.pl",  "gmusicbrowser.pl", NULL,       NULL,           256,            False,          0 },
  { "Gmusicbrowser.pl",  "gmusicbrowser.pl","Equalizer", "Equalizer",    256,            True,           0 },
 
+#ifdef HAVE_2MONS
  /* Don't forget to install window_merge plugin */
  { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
-//{"tabbed",            NULL,           NULL,           NULL,           0,              False,          1  },
- { "Hexchat",           NULL,           NULL,           NULL,           0,              False,          1  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
  { "qBittorrent",       "qbittorrent",  NULL,           NULL,           256,            False,          1  },
+#else
+ { "Pidgin",            NULL,           NULL,           "buddy_list",   2,              False,          0  },
+ { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          0  },
+ { "qBittorrent",       "qbittorrent",  NULL,           NULL,           128,            False,          0  },
+#endif
 
  /* current active monitor */
  { "Gimp",              NULL,           NULL,           NULL,           0,              True,           -1 },
@@ -131,15 +142,15 @@ static Key keys[] = {
         { MODKEY,                       XK_Up,     focusstack,     {.i = +1 } },
         { MODKEY,                       XK_Down,   focusstack,     {.i = -1 } },
 
-        { Mod1Mask,                     XK_1,      focusnstack,    {.i = 1 } },
-        { Mod1Mask,                     XK_2,      focusnstack,    {.i = 2 } },
-        { Mod1Mask,                     XK_3,      focusnstack,    {.i = 3 } },
-        { Mod1Mask,                     XK_4,      focusnstack,    {.i = 4 } },
-        { Mod1Mask,                     XK_5,      focusnstack,    {.i = 5 } },
-        { Mod1Mask,                     XK_6,      focusnstack,    {.i = 6 } },
-        { Mod1Mask,                     XK_7,      focusnstack,    {.i = 7 } },
-        { Mod1Mask,                     XK_8,      focusnstack,    {.i = 8 } },
-        { Mod1Mask,                     XK_9,      focusnstack,    {.i = 9 } },
+        { MODKEY,                       XK_F1,     focusnstack,    {.i = 1 } },
+        { MODKEY,                       XK_F2,     focusnstack,    {.i = 2 } },
+        { MODKEY,                       XK_F3,     focusnstack,    {.i = 3 } },
+        { MODKEY,                       XK_F4,     focusnstack,    {.i = 4 } },
+        { MODKEY,                       XK_F5,     focusnstack,    {.i = 5 } },
+        { MODKEY,                       XK_F6,     focusnstack,    {.i = 6 } },
+        { MODKEY,                       XK_F7,     focusnstack,    {.i = 7 } },
+        { MODKEY,                       XK_F8,     focusnstack,    {.i = 8 } },
+        { MODKEY,                       XK_F9,     focusnstack,    {.i = 9 } },
 
 //      { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 //      { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
