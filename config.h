@@ -1,26 +1,27 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*"; /* шрифт */
-static const char normbordercolor[] = "#444444";    /* цвет границ окна             */
-static const char normbgcolor[]     = "#1c1c1c";    /* цвет фона                    */
-static const char normfgcolor[]     = "#87AFAF";    /* цвет текста в status bar'e   */
-static const char selbordercolor[]  = "#D64937";    /* цвет границ активного окна   */
-static const char selbgcolor[]      = "#262626";    /* цвет фона заголовка окна     */
-static const char selfgcolor[]      = "#ffffff";    /* цвет текста заголовка окна   */
-static const unsigned int borderpx  = 1.5;          /* border pixel of windows      */
-static const unsigned int snap      = 32;           /* snap pixel                   */
-static const unsigned int systrayspacing = 2;       /* systray spacing              */
-static const Bool showsystray       = True;         /* False means no systray       */
-static const Bool showbar           = True;         /* False means no bar           */
-static const Bool topbar            = False;        /* False means bottom bar       */
+static const char           font[]              = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char           normbordercolor[]   = "#444444";    /* цвет границ окна             */
+static const char           normbgcolor[]       = "#1c1c1c";    /* цвет фона                    */
+static const char           normfgcolor[]       = "#87AFAF";    /* цвет текста в status bar'e   */
+static const char           selbordercolor[]    = "#D64937";    /* цвет границ активного окна   */
+static const char           selbgcolor[]        = "#262626";    /* цвет фона заголовка окна     */
+static const char           selfgcolor[]        = "#ffffff";    /* цвет текста заголовка окна   */
+static const unsigned int   borderpx            = 1.5;          /* border pixel of windows      */
+static const unsigned int   snap                = 32;           /* snap pixel                   */
+static const unsigned int   systrayspacing      = 2;            /* systray spacing              */
+static const Bool           showsystray         = True;         /* False means no systray       */
+static const Bool           showbar             = True;         /* False means no bar           */
+static const Bool           topbar              = False;        /* False means bottom bar       */
 
 /* tagging */
-#define MAX_TAGNAME_LEN 14      /* excludes tag number with semicolon */
-#define MAX_TAGLEN      16      /* altogether */
-#define TAGS            9       /* number of tags */
+#define MAX_TAGNAME_LEN     14      /* excludes tag number with semicolon */
+#define MAX_TAGLEN          16      /* altogether */
+#define TAGS                9       /* number of tags */
 
-//#define	HAVE_2MONS	/* uncomment if we have 2 connected monitors */
+/* uncomment if you have 2 connected monitors */
+#define HAVE_2MONS
 
 static char tags[][TAGS][MAX_TAGLEN] = {
 #ifdef HAVE_2MONS
@@ -60,17 +61,17 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster      = 1;    /* number of clients in master area */
-static const Bool resizehints = False;/* True means respect size hints in tiled resizals */
+static const float  mfact       = 0.55;     /* factor of master area size [0.05..0.95] */
+static const int    nmaster     = 1;        /* number of clients in master area */
+static const Bool   resizehints = False;    /* True means respect size hints in tiled resizals */
 
 #include "bstack.c"
 #include "bstackhoriz.c"
 #include "gaplessgrid.c"
 static const Layout layouts[] = {
         /* symbol     arrange function */
-        { "[]=",      tile },    /* first entry is default */
-        { "><>",      NULL },    /* no layout function means floating behavior */
+        { "[]=",      tile },               /* first entry is default */
+        { "><>",      NULL },               /* no layout function means floating behavior */
         { "[M]",      monocle },
         { "TTT",      bstack },
         { "===",      bstackhoriz },
@@ -102,28 +103,32 @@ static const char *dmenu_cmd[] = { "dmenu_run",
 static const char *term_cmd[]  = { "urxvtc", NULL };
 
 /* Gmusicbrowser settings */
-static const char *player_prog_cmd[]    = { "gmusicbrowser", NULL };
-static const char *player_stop_cmd[]    = { "gmusicbrowser", "-cmd", "Stop",      NULL };
-static const char *player_play_cmd[]    = { "gmusicbrowser", "-cmd", "PlayPause", NULL };
-static const char *player_prev_cmd[]    = { "gmusicbrowser", "-cmd", "PrevSongInPlaylist", NULL };
-static const char *player_next_cmd[]    = { "gmusicbrowser", "-cmd", "NextSongInPlaylist", NULL };
-static const char *player_mute_cmd[]    = { "gmusicbrowser", "-cmd", "TogMute",   NULL };
-static const char *player_incv_cmd[]    = { "gmusicbrowser", "-cmd", "IncVolume", NULL };
-static const char *player_decv_cmd[]    = { "gmusicbrowser", "-cmd", "DecVolume", NULL };
-//static const char *player_quit_cmd[]    = { "gmusicbrowser", "-cmd", "Quit",      NULL };
+static const char *player_prog_cmd[]    = { "gmusicbrowser",                                NULL };
+static const char *player_stop_cmd[]    = { "gmusicbrowser", "-cmd", "Stop",                NULL };
+static const char *player_play_cmd[]    = { "gmusicbrowser", "-cmd", "PlayPause",           NULL };
+static const char *player_prev_cmd[]    = { "gmusicbrowser", "-cmd", "PrevSongInPlaylist",  NULL };
+static const char *player_next_cmd[]    = { "gmusicbrowser", "-cmd", "NextSongInPlaylist",  NULL };
+static const char *player_mute_cmd[]    = { "gmusicbrowser", "-cmd", "TogMute",             NULL };
+static const char *player_incv_cmd[]    = { "gmusicbrowser", "-cmd", "IncVolume",           NULL };
+static const char *player_decv_cmd[]    = { "gmusicbrowser", "-cmd", "DecVolume",           NULL };
+/*
+static const char *player_quit_cmd[]    = { "gmusicbrowser", "-cmd", "Quit",                NULL };
+*/
 
 /* ALSA settings */
-//static const char *master_mute_cmd[]    = { "amixer", "sset", "Master", "toggle", NULL };
-//static const char *master_decv_cmd[]    = { "amixer", "sset", "Master", "1-", NULL };
-//static const char *master_incv_cmd[]    = { "amixer", "sset", "Master", "1+", NULL };
-//
-//static const char *front_mute_cmd[]     = { "amixer", "sset", "Front", "toggle", NULL };
-//static const char *front_decv_cmd[]     = { "amixer", "sset", "Front", "1-", NULL };
-//static const char *front_incv_cmd[]     = { "amixer", "sset", "Front", "1+", NULL };
-//
-//static const char *headphone_mute_cmd[] = { "amixer", "sset", "Headphone", "toggle", NULL };
-//static const char *headphone_decv_cmd[] = { "amixer", "sset", "Headphone", "1-", NULL };
-//static const char *headphone_incv_cmd[] = { "amixer", "sset", "Headphone", "1+", NULL };
+/*
+static const char *master_mute_cmd[]    = { "amixer", "sset", "Master",     "toggle",   NULL };
+static const char *master_decv_cmd[]    = { "amixer", "sset", "Master",     "1-",       NULL };
+static const char *master_incv_cmd[]    = { "amixer", "sset", "Master",     "1+",       NULL };
+
+static const char *front_mute_cmd[]     = { "amixer", "sset", "Front",      "toggle",   NULL };
+static const char *front_decv_cmd[]     = { "amixer", "sset", "Front",      "1-",       NULL };
+static const char *front_incv_cmd[]     = { "amixer", "sset", "Front",      "1+",       NULL };
+
+static const char *headphone_mute_cmd[] = { "amixer", "sset", "Headphone",  "toggle",   NULL };
+static const char *headphone_decv_cmd[] = { "amixer", "sset", "Headphone",  "1-",       NULL };
+static const char *headphone_incv_cmd[] = { "amixer", "sset", "Headphone",  "1+",       NULL };
+*/
 
 /* Notebooks settings */
 static const char *xbacklight_i_cmd[]   = { "xbacklight", "-set", "100", NULL };
@@ -132,49 +137,49 @@ static const char *xbacklight_d_cmd[]   = { "xbacklight", "-set",   "0", NULL };
 /*************************************************************************************/
 
 static Key keys[] = {
-        /* modifier                     key        function        argument */
-        { MODKEY,                       XK_p,      spawn,          {.v = dmenu_cmd } },
-        { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = term_cmd } },
-        { MODKEY,                       XK_b,      togglebar,      {0} },
+        /* modifier                     key                             function        argument */
+        { MODKEY,                       XK_p,                           spawn,          {.v = dmenu_cmd } },
+        { MODKEY|ShiftMask,             XK_Return,                      spawn,          {.v = term_cmd } },
+        { MODKEY,                       XK_b,                           togglebar,      {0} },
 
-        { MODKEY,                       XK_n,      nametag,        {0} },
+        { MODKEY,                       XK_n,                           nametag,        {0} },
 
-        { MODKEY,                       XK_Up,     focusstack,     {.i = +1 } },
-        { MODKEY,                       XK_Down,   focusstack,     {.i = -1 } },
+        { MODKEY,                       XK_Up,                          focusstack,     {.i = +1 } },
+        { MODKEY,                       XK_Down,                        focusstack,     {.i = -1 } },
 
-        { MODKEY,                       XK_F1,     focusnstack,    {.i = 1 } },
-        { MODKEY,                       XK_F2,     focusnstack,    {.i = 2 } },
-        { MODKEY,                       XK_F3,     focusnstack,    {.i = 3 } },
-        { MODKEY,                       XK_F4,     focusnstack,    {.i = 4 } },
-        { MODKEY,                       XK_F5,     focusnstack,    {.i = 5 } },
-        { MODKEY,                       XK_F6,     focusnstack,    {.i = 6 } },
-        { MODKEY,                       XK_F7,     focusnstack,    {.i = 7 } },
-        { MODKEY,                       XK_F8,     focusnstack,    {.i = 8 } },
-        { MODKEY,                       XK_F9,     focusnstack,    {.i = 9 } },
+        { MODKEY,                       XK_F1,                          focusnstack,    {.i = 1 } },
+        { MODKEY,                       XK_F2,                          focusnstack,    {.i = 2 } },
+        { MODKEY,                       XK_F3,                          focusnstack,    {.i = 3 } },
+        { MODKEY,                       XK_F4,                          focusnstack,    {.i = 4 } },
+        { MODKEY,                       XK_F5,                          focusnstack,    {.i = 5 } },
+        { MODKEY,                       XK_F6,                          focusnstack,    {.i = 6 } },
+        { MODKEY,                       XK_F7,                          focusnstack,    {.i = 7 } },
+        { MODKEY,                       XK_F8,                          focusnstack,    {.i = 8 } },
+        { MODKEY,                       XK_F9,                          focusnstack,    {.i = 9 } },
 
-//      { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-//      { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-        { MODKEY|ShiftMask,             XK_Left,   setmfact,       {.f = -0.05} },
-        { MODKEY|ShiftMask,             XK_Right,  setmfact,       {.f = +0.05} },
+//      { MODKEY,                       XK_i,                           incnmaster,     {.i = +1 } },
+//      { MODKEY,                       XK_d,                           incnmaster,     {.i = -1 } },
+        { MODKEY|ShiftMask,             XK_Left,                        setmfact,       {.f = -0.05} },
+        { MODKEY|ShiftMask,             XK_Right,                       setmfact,       {.f = +0.05} },
 
-        { MODKEY,                       XK_Return, zoom,           {0} },
-        { MODKEY,                       XK_Tab,    view,           {0} },
-        { MODKEY,                       XK_c,      killclient,     {0} },
-        { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-        { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-        { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-        { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
-        { MODKEY,                       XK_h,      setlayout,      {.v = &layouts[4]} },
-        { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
-        { MODKEY,                       XK_space,  setlayout,      {0} },
-        { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-        { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-        { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+        { MODKEY,                       XK_Return,                      zoom,           {0} },
+        { MODKEY,                       XK_Tab,                         view,           {0} },
+        { MODKEY,                       XK_c,                           killclient,     {0} },
+        { MODKEY,                       XK_t,                           setlayout,      {.v = &layouts[0]} },
+        { MODKEY,                       XK_f,                           setlayout,      {.v = &layouts[1]} },
+        { MODKEY,                       XK_m,                           setlayout,      {.v = &layouts[2]} },
+        { MODKEY,                       XK_s,                           setlayout,      {.v = &layouts[3]} },
+        { MODKEY,                       XK_h,                           setlayout,      {.v = &layouts[4]} },
+        { MODKEY,                       XK_g,                           setlayout,      {.v = &layouts[5]} },
+        { MODKEY,                       XK_space,                       setlayout,      {0} },
+        { MODKEY|ShiftMask,             XK_space,                       togglefloating, {0} },
+        { MODKEY,                       XK_0,                           view,           {.ui = ~0 } },
+        { MODKEY|ShiftMask,             XK_0,                           tag,            {.ui = ~0 } },
 
-        { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-        { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-        { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-        { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+        { MODKEY,                       XK_comma,                       focusmon,       {.i = -1 } },
+        { MODKEY,                       XK_period,                      focusmon,       {.i = +1 } },
+        { MODKEY|ShiftMask,             XK_comma,                       tagmon,         {.i = -1 } },
+        { MODKEY|ShiftMask,             XK_period,                      tagmon,         {.i = +1 } },
 
         TAGKEYS(                        XK_1,                      0)
         TAGKEYS(                        XK_2,                      1)
@@ -186,7 +191,7 @@ static Key keys[] = {
         TAGKEYS(                        XK_8,                      7)
         TAGKEYS(                        XK_9,                      8)
 
-        { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+        { MODKEY|ShiftMask,             XK_q,                           quit,           {0} },
 
         /*********************************
          * Multimedia keyboard shortcuts *
