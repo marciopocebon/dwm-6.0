@@ -59,5 +59,7 @@ uninstall:
 	@rm -f ${DESTDIR}${PREFIX}/bin/dwm
 	@echo removing manual page from ${DESTDIR}${MANPREFIX}/man1
 	@rm -f ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@echo removing xprop_dwm.sh from ${DESTDIR}${PREFIX}/bin
+	@rm -f ${DESTDIR}${PREFIX}/bin/xprop_dwm.sh
 
 .PHONY: all options clean dist install uninstall
