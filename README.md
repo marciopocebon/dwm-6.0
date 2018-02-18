@@ -8,7 +8,9 @@ This is my personal fork with several patches:
 - pertag
 - systray
 - WM_WINDOW_ROLE
-
+- hide vacant tags
+- nametag
+- mult-monitor configuration
 
 Screenshot
 ------------
