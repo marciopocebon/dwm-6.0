@@ -2,31 +2,32 @@
 
 /* appearance */
 static const char           font[]              = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
-static const char           normbordercolor[]   = "#444444";    /* цвет границ окна             */
-static const char           normbgcolor[]       = "#1c1c1c";    /* цвет фона                    */
-static const char           normfgcolor[]       = "#87AFAF";    /* цвет текста в status bar'e   */
-static const char           selbordercolor[]    = "#D64937";    /* цвет границ активного окна   */
-static const char           selbgcolor[]        = "#262626";    /* цвет фона заголовка окна     */
-static const char           selfgcolor[]        = "#ffffff";    /* цвет текста заголовка окна   */
-static const unsigned int   borderpx            = 1.5;          /* border pixel of windows      */
-static const unsigned int   snap                = 32;           /* snap pixel                   */
-static const unsigned int   systrayspacing      = 2;            /* systray spacing              */
-static const Bool           showsystray         = True;         /* False means no systray       */
-static const Bool           showbar             = True;         /* False means no bar           */
-static const Bool           topbar              = False;        /* False means bottom bar       */
+static const char           normbordercolor[]   = "#444444";    /* window borders color                 */
+static const char           normbgcolor[]       = "#1c1c1c";    /* background color                     */
+static const char           normfgcolor[]       = "#87AFAF";    /* text color in status bar             */
+static const char           selbordercolor[]    = "#D64937";    /* active window border color           */
+static const char           selbgcolor[]        = "#262626";    /* window title background color        */
+static const char           selfgcolor[]        = "#ffffff";    /* window title color                   */
+static const unsigned int   borderpx            = 1.5;          /* border pixel of windows              */
+static const unsigned int   snap                = 32;           /* snap pixel                           */
+static const unsigned int   systrayspacing      = 2;            /* systray spacing                      */
+static const Bool           showsystray         = True;         /* False means no systray               */
+static const Bool           showbar             = True;         /* False means no bar                   */
+static const Bool           topbar              = False;        /* False means bottom bar               */
 
 /* tagging */
 #define MAX_TAGNAME_LEN     14      /* excludes tag number with semicolon */
 #define MAX_TAGLEN          16      /* altogether */
 #define TAGS                9       /* number of tags */
 
-/* uncomment if you have 2 connected monitors */
-#define HAVE_2MONS
+/* uncomment if you have multiple connected monitors */
+//#define MULTIMONS
 
 static char tags[][TAGS][MAX_TAGLEN] = {
-#ifdef HAVE_2MONS
+#ifdef MULTIMONS
 /* monitor 0 */  {"1", "2", "3", "4", "5", "6", "7", "8", "9:gmb"},
 /* monitor 1 */  {"1", "2:mail", "3:chat", "4", "5", "6", "7", "8", "9:qb"},
+/*    ...    */
 #else
                  {"1", "2:im", "3", "4", "5", "6", "7", "8:qb", "9:gmb" },
 #endif
@@ -38,7 +39,7 @@ static const Rule rules[] = {
  { "Gmusicbrowser.pl",  "gmusicbrowser.pl", NULL,       NULL,           256,            False,          0 },
  { "Gmusicbrowser.pl",  "gmusicbrowser.pl","Equalizer", "Equalizer",    256,            True,           0 },
 
-#ifdef HAVE_2MONS
+#ifdef MULTIMONS
  /* Don't forget to install window_merge plugin */
  { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
