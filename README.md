@@ -10,7 +10,7 @@ This is my personal fork with several patches:
 - WM_WINDOW_ROLE
 - hide vacant tags
 - nametag
-- mult-monitor configuration
+- multi-monitor configuration
 
 Screenshot
 ------------

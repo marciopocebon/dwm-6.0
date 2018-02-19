@@ -2,18 +2,18 @@
 
 /* appearance */
 static const char           font[]              = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
-static const char           normbordercolor[]   = "#444444";    /* window borders color                 */
-static const char           normbgcolor[]       = "#1c1c1c";    /* background color                     */
-static const char           normfgcolor[]       = "#87AFAF";    /* text color in status bar             */
-static const char           selbordercolor[]    = "#D64937";    /* active window border color           */
-static const char           selbgcolor[]        = "#262626";    /* window title background color        */
-static const char           selfgcolor[]        = "#ffffff";    /* window title color                   */
-static const unsigned int   borderpx            = 1.5;          /* border pixel of windows              */
-static const unsigned int   snap                = 32;           /* snap pixel                           */
-static const unsigned int   systrayspacing      = 2;            /* systray spacing                      */
-static const Bool           showsystray         = True;         /* False means no systray               */
-static const Bool           showbar             = True;         /* False means no bar                   */
-static const Bool           topbar              = False;        /* False means bottom bar               */
+static const char           normbordercolor[]   = "#444444";    /* window borders color           */
+static const char           normbgcolor[]       = "#1c1c1c";    /* background color               */
+static const char           normfgcolor[]       = "#87AFAF";    /* text color in status bar       */
+static const char           selbordercolor[]    = "#D64937";    /* active window border color     */
+static const char           selbgcolor[]        = "#262626";    /* window title background color  */
+static const char           selfgcolor[]        = "#ffffff";    /* window title color             */
+static const unsigned int   borderpx            = 1.5;          /* border pixel of windows        */
+static const unsigned int   snap                = 32;           /* snap pixel                     */
+static const unsigned int   systrayspacing      = 2;            /* systray spacing                */
+static const Bool           showsystray         = True;         /* False means no systray         */
+static const Bool           showbar             = True;         /* False means no bar             */
+static const Bool           topbar              = False;        /* False means bottom bar         */
 
 /* tagging */
 #define MAX_TAGNAME_LEN     14      /* excludes tag number with semicolon */
