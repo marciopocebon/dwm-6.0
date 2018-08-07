@@ -29,7 +29,7 @@ static char tags[][TAGS][MAX_TAGLEN] = {
 /* monitor 1 */  {"1", "2:mail", "3:chat", "4", "5", "6", "7", "8", "9:qb"},
 /*    ...    */
 #else
-                 {"1", "2:im", "3", "4", "5", "6", "7", "8:qb", "9:gmb" },
+                 {"1:ff", "2:tb", "3", "4", "5", "6", "7", "8:qb", "9:gmb" },
 #endif
 };
 
@@ -45,9 +45,12 @@ static const Rule rules[] = {
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
  { "qBittorrent",       "qbittorrent",  NULL,           NULL,           256,            False,          1  },
 #else
+/***********************************************************************************************************/
+ { "Firefox",           NULL,           NULL,           NULL,           0,              False,          0  },
  { "Pidgin",            NULL,           NULL,           "buddy_list",   2,              False,          0  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          0  },
  { "qBittorrent",       "qbittorrent",  NULL,           NULL,           128,            False,          0  },
+/***********************************************************************************************************/
 #endif
 
  /* current active monitor */
@@ -94,14 +97,14 @@ static const Layout layouts[] = {
 /* Multimedia keyboard definitions */
 #include <X11/XF86keysym.h>
 
-static const char *dmenu_cmd[] = { "dmenu_run",
-                                    "-fn", font,
-                                    "-nb", normbgcolor,
-                                    "-nf", normfgcolor,
-                                    "-sb", selbgcolor,
-                                    "-sf", selfgcolor, NULL };
+/* Change current tag name. Called by MODKEY + n */
+#define ROFI_CMD_CHANGE_TAG \
+	"rofi -dmenu -p 'Set current tag name' -width 20 -lines 0"
 
-static const char *term_cmd[]  = { "urxvtc", NULL };
+static const char *rofi_cmd[] = { "rofi", "-show", "run", NULL };
+static const char *lock_cmd[] = { "trollock", NULL };
+static const char *term_cmd[] = { "urxvtc",   NULL };
+static const char *kill_dwm[] = { "killall", "dwm_loop.sh", NULL };
 
 /* Gmusicbrowser settings */
 static const char *player_prog_cmd[]    = { "gmusicbrowser",                                NULL };
@@ -132,14 +135,15 @@ static const char *headphone_incv_cmd[] = { "amixer", "sset", "Headphone",  "1+"
 */
 
 /* Notebooks settings */
-static const char *xbacklight_i_cmd[]   = { "xbacklight", "-set", "100", NULL };
-static const char *xbacklight_d_cmd[]   = { "xbacklight", "-set",   "0", NULL };
+static const char *xbacklight_i_cmd[]   = { "xbacklight", "-inc", "10", NULL };
+static const char *xbacklight_d_cmd[]   = { "xbacklight", "-dec", "10", NULL };
 
 /*************************************************************************************/
 
 static Key keys[] = {
         /* modifier                     key                             function        argument */
-        { MODKEY,                       XK_p,                           spawn,          {.v = dmenu_cmd } },
+        { MODKEY,                       XK_p,                           spawn,          {.v = rofi_cmd } },
+        { MODKEY,                       XK_l,                           spawn,          {.v = lock_cmd } },
         { MODKEY|ShiftMask,             XK_Return,                      spawn,          {.v = term_cmd } },
         { MODKEY,                       XK_b,                           togglebar,      {0} },
 
@@ -158,8 +162,8 @@ static Key keys[] = {
         { MODKEY,                       XK_F8,                          focusnstack,    {.i = 8 } },
         { MODKEY,                       XK_F9,                          focusnstack,    {.i = 9 } },
 
-//      { MODKEY,                       XK_i,                           incnmaster,     {.i = +1 } },
-//      { MODKEY,                       XK_d,                           incnmaster,     {.i = -1 } },
+        { MODKEY,                       XK_i,                           incnmaster,     {.i = +1 } },
+        { MODKEY,                       XK_d,                           incnmaster,     {.i = -1 } },
         { MODKEY|ShiftMask,             XK_Left,                        setmfact,       {.f = -0.05} },
         { MODKEY|ShiftMask,             XK_Right,                       setmfact,       {.f = +0.05} },
 
@@ -192,7 +196,8 @@ static Key keys[] = {
         TAGKEYS(                        XK_8,                      7)
         TAGKEYS(                        XK_9,                      8)
 
-        { MODKEY|ShiftMask,             XK_q,                           quit,           {0} },
+        { MODKEY|ShiftMask,             XK_r,                           quit,           {0} },
+        { MODKEY|ShiftMask,             XK_q,                           spawn,          {.v = kill_dwm } },
 
         /*********************************
          * Multimedia keyboard shortcuts *
@@ -246,3 +251,4 @@ static Button buttons[] = {
         { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+/* End of file */

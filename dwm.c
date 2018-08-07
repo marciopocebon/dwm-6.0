@@ -1481,8 +1481,8 @@ nametag(const Arg *arg) {
         int i;
 
         errno = 0; /* popen(3p) says on failure it "may" set errno */
-        if(!(f = popen("dmenu -p 'set current tag name:' < /dev/null", "r"))) {
-                fprintf(stderr, "dwm: Could not popen 'dmenu ... < /dev/null'");
+        if(!(f = popen(ROFI_CMD_CHANGE_TAG" < /dev/null", "r"))) {
+                fprintf(stderr, "dwm: Could not popen 'rofi ... < /dev/null'");
                 if(errno)
                         fprintf(stderr, ": %s\n", strerror(errno));
                 else
