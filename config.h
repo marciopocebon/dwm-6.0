@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char           font[]              = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char           font[]              = "Fira Code:size=10";
 static const char           normbordercolor[]   = "#444444";    /* window borders color           */
 static const char           normbgcolor[]       = "#1c1c1c";    /* background color               */
 static const char           normfgcolor[]       = "#87AFAF";    /* text color in status bar       */
