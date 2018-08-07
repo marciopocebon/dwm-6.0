@@ -29,7 +29,7 @@ static char tags[][TAGS][MAX_TAGLEN] = {
 /* monitor 1 */  {"1", "2:mail", "3:chat", "4", "5", "6", "7", "8", "9:qb"},
 /*    ...    */
 #else
-                 {"1:ff", "2:tb", "3", "4", "5", "6", "7", "8:qb", "9:gmb" },
+                 {"1:ff", "2:tb", "3:kpxc", "4", "5", "6", "7", "8:qb", "9:gmb" },
 #endif
 };
 
@@ -49,6 +49,7 @@ static const Rule rules[] = {
  { "Firefox",           NULL,           NULL,           NULL,           0,              False,          0  },
  { "Pidgin",            NULL,           NULL,           "buddy_list",   2,              False,          0  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          0  },
+ { "keepassxc",         NULL,           NULL,           NULL,           4,              False,          0  },
  { "qBittorrent",       "qbittorrent",  NULL,           NULL,           128,            False,          0  },
 /***********************************************************************************************************/
 #endif
