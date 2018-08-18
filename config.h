@@ -5,10 +5,10 @@ static const char           font[]              = "Fira Code:size=10";
 static const char           normbordercolor[]   = "#444444";    /* window borders color           */
 static const char           normbgcolor[]       = "#1c1c1c";    /* background color               */
 static const char           normfgcolor[]       = "#87AFAF";    /* text color in status bar       */
-static const char           selbordercolor[]    = "#D64937";    /* active window border color     */
+static const char           selbordercolor[]    = "#4271ae";    /* active window border color     */
 static const char           selbgcolor[]        = "#262626";    /* window title background color  */
 static const char           selfgcolor[]        = "#ffffff";    /* window title color             */
-static const unsigned int   borderpx            = 1.5;          /* border pixel of windows        */
+static const unsigned int   borderpx            = 2.5;          /* border pixel of windows        */
 static const unsigned int   snap                = 32;           /* snap pixel                     */
 static const unsigned int   systrayspacing      = 2;            /* systray spacing                */
 static const Bool           showsystray         = True;         /* False means no systray         */
@@ -100,8 +100,8 @@ static const Layout layouts[] = {
 /* Change current tag name. Called by MODKEY + n */
 #define ROFI_CMD_CHANGE_TAG \
 	"rofi -dmenu -p 'Set current tag name' -width 20 -lines 0"
-
-static const char *rofi_cmd[] = { "rofi", "-show", "run", NULL };
+static const char *rofi_cmd[] = { "rofi", "-combi-modi", "drun,run", "-show", "combi", "-modi", "combi", NULL };
+//static const char *rofi_cmd[] = { "rofi", "-show", "drun", "-modi", "drun,run", NULL };
 static const char *lock_cmd[] = { "trollock", NULL };
 static const char *term_cmd[] = { "urxvtc",   NULL };
 static const char *kill_dwm[] = { "killall", "dwm_loop.sh", NULL };
