@@ -104,7 +104,6 @@ static const char *rofi_cmd[] = { "rofi", "-combi-modi", "drun,run", "-show", "c
 //static const char *rofi_cmd[] = { "rofi", "-show", "drun", "-modi", "drun,run", NULL };
 static const char *lock_cmd[] = { "trollock", NULL };
 static const char *term_cmd[] = { "urxvtc",   NULL };
-static const char *kill_dwm[] = { "killall", "dwm_loop.sh", NULL };
 
 /* Gmusicbrowser settings */
 static const char *player_prog_cmd[]    = { "gmusicbrowser",                                NULL };
@@ -196,8 +195,7 @@ static Key keys[] = {
         TAGKEYS(                        XK_8,                      7)
         TAGKEYS(                        XK_9,                      8)
 
-        { MODKEY|ShiftMask,             XK_r,                           quit,           {0} },
-        { MODKEY|ShiftMask,             XK_q,                           spawn,          {.v = kill_dwm } },
+        { MODKEY|ShiftMask,             XK_q,                           quit,           {0} },
 
         /*********************************
          * Multimedia keyboard shortcuts *
