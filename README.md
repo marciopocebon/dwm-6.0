@@ -11,6 +11,7 @@ This is my personal fork with several patches:
 - hide vacant tags
 - nametag
 - multi-monitor configuration
+- freetype2
 
 Screenshot
 ------------
