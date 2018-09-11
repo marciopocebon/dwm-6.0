@@ -36,9 +36,6 @@ static char tags[][TAGS][MAX_TAGLEN] = {
 static const Rule rules[] = {
 /* class                instance        title           role            tags mask       isfloating      monitor */
 
- { "Gmusicbrowser.pl",  "gmusicbrowser.pl", NULL,       NULL,           256,            False,          0 },
- { "Gmusicbrowser.pl",  "gmusicbrowser.pl","Equalizer", "Equalizer",    256,            True,           0 },
-
 #ifdef MULTIMONS
  /* Don't forget to install window_merge plugin */
  { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
@@ -51,9 +48,10 @@ static const Rule rules[] = {
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          0  },
  { "keepassxc",         "keepassxc",    NULL,           NULL,           4,              False,          0  },
  { "qBittorrent",       "qbittorrent",  NULL,           NULL,           128,            False,          0  },
+ { "Gmusicbrowser.pl",  NULL,           NULL,           NULL,           256,            False,          0  },
+ { "Gmusicbrowser.pl",  NULL,           NULL,           "Equalizer",    256,            True,           0  },
 /***********************************************************************************************************/
 #endif
-
  /* current active monitor */
  { "Gimp",              NULL,           NULL,           NULL,           0,              True,           -1 },
  { "Lazarus",           NULL,           NULL,           NULL,           0,              True,           -1 },
