@@ -29,7 +29,7 @@ static char tags[][TAGS][MAX_TAGLEN] = {
 /* monitor 1 */  {"1", "2:mail", "3:chat", "4", "5", "6", "7", "8", "9:qb"},
 /*    ...    */
 #else
-                 {"1:ff", "2:tb", "3:kpxc", "4", "5", "6", "7", "8:qb", "9:gmb" },
+                 {"1:ff", "2:ev", "3:hxc", "4:term", "5:kp", "6", "7", "8:qb", "9:gmb" },
 #endif
 };
 
@@ -40,14 +40,20 @@ static const Rule rules[] = {
  /* Don't forget to install window_merge plugin */
  { "Pidgin",            NULL,           NULL,           "buddy_list",   4,              False,          1  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          1  },
- { "qBittorrent",       "qbittorrent",  NULL,           NULL,           256,            False,          1  },
+ { "qBittorrent",       NULL,           NULL,           NULL,           256,            False,          1  },
 #else
 /***********************************************************************************************************/
  { "Firefox",           NULL,           NULL,           NULL,           0,              False,          0  },
- { "Pidgin",            NULL,           NULL,           "buddy_list",   2,              False,          0  },
+
+ { "Evolution",         NULL,           NULL,           NULL,           2,              False,          0  },
  { "Thunderbird",       NULL,           NULL,           NULL,           2,              False,          0  },
- { "keepassxc",         "keepassxc",    NULL,           NULL,           4,              False,          0  },
- { "qBittorrent",       "qbittorrent",  NULL,           NULL,           128,            False,          0  },
+
+ { "Hexchat",           NULL,           NULL,           NULL,           4,              False,          0  },
+ 
+ { "keepassxc",         NULL,           NULL,           NULL,           16,             False,          0  },
+
+ { "qBittorrent",       NULL,           NULL,           NULL,           128,            False,          0  },
+
  { "Gmusicbrowser.pl",  NULL,           NULL,           NULL,           256,            False,          0  },
  { "Gmusicbrowser.pl",  NULL,           NULL,           "Equalizer",    256,            True,           0  },
 /***********************************************************************************************************/
@@ -99,10 +105,11 @@ static const Layout layouts[] = {
 /* Change current tag name. Called by MODKEY + n */
 #define ROFI_CMD_CHANGE_TAG \
 	"rofi -dmenu -p 'Set current tag name' -width 20 -lines 0"
-static const char *rofi_cmd[] = { "rofi", "-combi-modi", "drun,run", "-show", "combi", "-modi", "combi", NULL };
-//static const char *rofi_cmd[] = { "rofi", "-show", "drun", "-modi", "drun,run", NULL };
-static const char *lock_cmd[] = { "trollock", NULL };
-static const char *term_cmd[] = { "urxvtc",   NULL };
+
+//static const char *rofi_cmd[] = { "rofi.sh", "-show", "drun", "-modi", "drun,run", NULL };
+static const char *rofi_cmd[] = { "rofi.sh", "-combi-modi", "drun,run", "-show", "combi", "-modi", "combi", NULL };
+static const char *lock_cmd[] = { "scrlock.sh", NULL };
+static const char *term_cmd[] = { "konsole",    NULL };
 
 /* Gmusicbrowser settings */
 static const char *player_prog_cmd[]    = { "gmusicbrowser",                                NULL };
@@ -113,9 +120,8 @@ static const char *player_next_cmd[]    = { "gmusicbrowser", "-cmd", "NextSongIn
 static const char *player_mute_cmd[]    = { "gmusicbrowser", "-cmd", "TogMute",             NULL };
 static const char *player_incv_cmd[]    = { "gmusicbrowser", "-cmd", "IncVolume",           NULL };
 static const char *player_decv_cmd[]    = { "gmusicbrowser", "-cmd", "DecVolume",           NULL };
-/*
-static const char *player_quit_cmd[]    = { "gmusicbrowser", "-cmd", "Quit",                NULL };
-*/
+//static const char *player_quit_cmd[]    = { "gmusicbrowser", "-cmd", "Quit",                NULL };
+
 
 /* ALSA settings */
 /*
@@ -223,7 +229,6 @@ static Key keys[] = {
 
 //      { 0,                            XF86XK_Mail,                    spawn,  {.v = mailclient_cmd } },
 //      { 0,                            XF86XK_Calculator,              spawn,  {.v = calculator_cmd } },
-
 
         /* Brightness */
         { 0,                            XF86XK_MonBrightnessUp,         spawn,  {.v = xbacklight_i_cmd } },
